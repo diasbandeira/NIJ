@@ -1,0 +1,74 @@
+﻿@model NIJ.Web.Models.Activity
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+</head>
+<body>
+
+<h4>Activity</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ActivityId" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="ActivityId" class="form-control" />
+                    <span asp-validation-for="ActivityId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartedAt" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="StartedAt" class="form-control" />
+                    <span asp-validation-for="StartedAt" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndedAt" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="EndedAt" class="form-control" />
+                    <span asp-validation-for="EndedAt" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="col-md-2 control-label"></label>
+                <div class="offset-md-2 col-md-10">
+                    <input asp-for="Status" class="form-control" />
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="offset-md-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-primary" />    
+                </div>                
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+</body>
+</html>
