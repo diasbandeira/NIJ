@@ -45,5 +45,59 @@ namespace NIJ.Web.Controllers
             }
             return View(project);
         }
+        //Get: Project/Edit/{id}
+        public async Task<IActionResult> Edit(long? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var project = await _context.Projects.SingleOrDefaultAsync(p => p.ProjectId == id);
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            return View(project);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(long? id, [Bind("ProjectId, Name")] Project project)
+        {
+            if(id != project.ProjectId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(project);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProjectExists(project.ProjectId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(project);
+        }
+
+        private bool ProjectExists(long? id)
+        {
+            return _context.Projects.Any(p => p.ProjectId == id);
+        }
     }
 }
