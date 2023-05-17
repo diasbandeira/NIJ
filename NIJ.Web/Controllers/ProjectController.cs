@@ -99,5 +99,21 @@ namespace NIJ.Web.Controllers
         {
             return _context.Projects.Any(p => p.ProjectId == id);
         }
+
+        public async Task<IActionResult> Details(long? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var project = await _context.Projects.SingleOrDefaultAsync(p => p.ProjectId == id);
+            if(project == null)
+            {
+                return NotFound();
+            }
+                
+            return View(project);
+        }
     }
 }
