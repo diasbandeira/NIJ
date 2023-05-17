@@ -115,5 +115,34 @@ namespace NIJ.Web.Controllers
                 
             return View(project);
         }
+
+        //Get: Project/Delete/{id}
+        public async Task<IActionResult> Delete(long? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var project = await _context.Projects.SingleOrDefaultAsync(p => p.ProjectId == id);
+
+            if(project == null)
+            {
+                return NotFound();
+            }
+
+            return View(project);
+        }
+
+        //POST: Project/Delete/{id}
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(long? id)
+        {
+            var project = await _context.Projects.SingleOrDefaultAsync(p => p.ProjectId == id);
+            _context.Projects.Remove(project);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
