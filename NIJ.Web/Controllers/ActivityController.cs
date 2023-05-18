@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using NIJ.Web.Data;
 using NIJ.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -9,43 +11,15 @@ namespace NIJ.Web.Controllers
 {
     public class ActivityController : Controller
     {
-        private static IList<Activity> activities = new List<Activity>()
+        private readonly IESContext _context;
+
+        public ActivityController(IESContext context)
         {
-            new Activity()
-            {
-                ActivityId = 1,
-                Description = "Atividade 2",
-                StartedAt = DateTime.Now,
-                EndedAt = DateTime.Now.AddHours(1),
-                Status = Status.Started
-            },
-            new Activity()
-            {
-                ActivityId = 2,
-                Description = "Atividade 3",
-                StartedAt = DateTime.Now,
-                EndedAt = DateTime.Now.AddHours(2),
-                Status = Status.Pause
-            },
-            new Activity()
-            {
-                ActivityId = 3,
-                Description = "Atividade 3",
-                StartedAt = DateTime.Now,
-                EndedAt = DateTime.Now.AddHours(3),
-                Status = Status.Ended
-            },
-            new Activity()
-            {
-                ActivityId = 4,
-                Description = "Atividade 4",
-                StartedAt = DateTime.Now,
-                EndedAt = DateTime.Now.AddHours(4),
-                Status = Status.Deleted
-            }
-        };
-        public IActionResult Index()
+            this._context = context;
+        }
+        public async Task<IActionResult> Index()
         {
+            var activities = await _context.Activities.OrderBy(a => a.ActivityId).ToListAsync();
             return View(activities);
         }
 
@@ -57,49 +31,121 @@ namespace NIJ.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Activity activity)
+        public async Task<IActionResult> Create([Bind("Description", "StartedAt", "EndedAt", "Status")] Activity activity)
         {
-            activities.Add(activity);
-            activity.ActivityId = activities.Select(a => a.ActivityId).Max() + 1;
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.Add(activity);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DbUpdateException)
+            {
+                ModelState.AddModelError("", "Não foi possivel inserir os dados");
+            }
 
-            return RedirectToAction("Index");
+            return View(activity);            
 
         }
 
         //Get
-        public ActionResult Edit(long id)
+        public async Task<IActionResult> Edit(long? id)
         {
-            return View(activities.Where(a => a.ActivityId == id).First());
+            if(id == null)
+            {
+                return NotFound();
+            }
+
+            var activity = await _context.Activities.Where(a => a.ActivityId == id).SingleOrDefaultAsync();
+
+            if(activity == null)
+            {
+                return NotFound();
+            }
+            return View(activity);
+        
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Activity activity)
+        public async Task<IActionResult> Edit(long? id, [Bind("ActivityId", "Description", "StartedAt", "EndedAt", "Status")] Activity activity)
         {
-            activities.Remove(activities.Where(a => a.ActivityId == activity.ActivityId).First());
-            activities.Add(activity);
-
-            return RedirectToAction("Index");
+            
+            if(activity.ActivityId != id)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(activity);
+                    await _context.SaveChangesAsync();                    
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ActivityExist(activity.ActivityId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }                    
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            
+            return View(activity);
+            
         }
 
         //Get
-        public ActionResult Details(long id)
+        public async Task<IActionResult> Details(long? id)
         {
-            return View(activities.Where(i => i.ActivityId == id).First());
+            if (id == null)
+                return NotFound();
+
+            var activity = await _context.Activities.Where(a => a.ActivityId == id).SingleOrDefaultAsync();
+            
+            if (activity == null)
+                return NotFound();
+
+            return View(activity);
         }
 
-        //GET
-        public ActionResult Delete(long id)
+        //Get: Activity/Delete/{id}
+        public async Task<IActionResult> Delete(long? id)
         {
-            return View(activities.Where(i => i.ActivityId == id).First());
+            if (id == null)
+                return NotFound();
+            
+            var activity = await _context.Activities.Where(a => a.ActivityId == id).SingleOrDefaultAsync();
+            
+            if (activity == null)
+                return NotFound();
+
+            return View(activity);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(Activity activity)
+        public async Task<IActionResult> DeleteConfirmed(long? id)
         {
-            activities.Remove(activities.Where(i => i.ActivityId == activity.ActivityId).First());
-            return RedirectToAction("Index");
+            var activity = await _context.Activities.Where(a => a.ActivityId == id).SingleOrDefaultAsync();
+            _context.Remove(activity);
+            await _context.SaveChangesAsync();
+            
+            return RedirectToAction(nameof(Index));
+        }
+
+
+        private bool ActivityExist(long? activityId)
+        {
+            return _context.Activities.Any(a => a.ActivityId == activityId);
         }
     }
 }
