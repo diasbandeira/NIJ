@@ -34,7 +34,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="navbar-header">
-                    <img class="media-heading" src="/images/casa-do-codigo.png" width="30" height="30" alt="" >
+                    @*<img class="media-heading" src="/images/logo.jpg" width="30" height="30" alt="" >*@
                 </div>
                 <div>
                     <ul class="nav navbar-nav navbar-light">
@@ -70,5 +70,16 @@
     <nav class="navbar fixed-bottom" style="background-color: #e3f2fd; margin-top:20px;">
         <a class="navbar-brand" href="#" >NIJ- NOT IS JIRA!!!</a>        
     </nav>
+    <environment include="Developement">
+        <script src="~/lib/jquery/jquery.slim.min.js"></script>
+        <script src="~/lib/popper.js/umd/popper.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    </environment>
+    <environment exclude="Delopment">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper/1.14.4/umd/popper.min.js" asp-fallback-src="~/lib/popper.js/umd/popper.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" asp-fallback-src="~/lib/jquery/jquery.slim.min.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.js" ></script>
+    </environment>
+    @RenderSection("ScriptPage", required: false)
 </body>
 </html>
