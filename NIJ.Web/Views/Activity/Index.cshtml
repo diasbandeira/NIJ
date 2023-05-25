@@ -1,10 +1,82 @@
 ﻿@model IEnumerable<NIJ.Web.Models.Activity>
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutIES.cshtml";
+}
+@section Styles {
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/datatables/css/jquery.dataTables.min.css" />
+    </environment>
+    <environment exclude="Development">
+        <link
+            rel="stylesheet" 
+            href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" 
+            asp-asp-fallback-href="~/lib/datables/css/jquery.dataTables.min.css"
+            asp-fallback-test-class="sr-only"
+            asp-fallback-test-property="position"
+            asp-fallback-test-value="absolute"
+        />
+    </environment>
 }
 
-<!DOCTYPE html>
+<div class="card-block">
+    <div class="card-heard text-white bg-primary text-center h1">Atividades Registradas</div>
+    <div card-body>
+        <table id="tabela_atividades">
+            <thead>
+                <tr>
+                   <th>
+                    @Html.DisplayNameFor(model => model.ActivityId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StartedAt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EndedAt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model) {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActivityId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StartedAt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndedAt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id=item.ActivityId }) |
+                        @Html.ActionLink("Details", "Details", new { id=item.ActivityId }) |
+                        @Html.ActionLink("Delete", "Delete", new { id=item.ActivityId })
+                    </td>
+                </tr>
+            }
+            </tbody>            
+        </table>        
+    </div>
+    <div class="card-footer bg-success text-center">
+        <a asp-action="Create" class="btn-success">Criar nova atividade</a>
+    </div>    
+</div>
+
+@*<!DOCTYPE html>
 
 <html>
 <head>
@@ -18,50 +90,11 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ActivityId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th></th>
+            
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ActivityId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.ActivityId }) |
-                @Html.ActionLink("Details", "Details", new { id=item.ActivityId }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.ActivityId })
-            </td>
-        </tr>
-}
-    </tbody>
+    
 </table>
 </body>
 </html>
+*@
