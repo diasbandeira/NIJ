@@ -28,21 +28,61 @@
     </div>
     <div class="card-body">
         <div class="form-group">
-            <label asp-for="ActivityId" class="control-label"></label> <br />
-            <div class="input-group-prepend">
-                <span class="input-group-text">
-                        <i class="fa fa-key" aria-hidden="true"></i>
-                </span>                
+            <label asp-for="ActivityId" class="control-label"></label> 
+            <br />
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                            <i class="fa fa-key" aria-hidden="true"></i>
+                    </span>                
+                </div>
+                <input asp-for="ActivityId" class="form-control" disabled="disabled" />                
             </div>
-            <input asp-for="ActivityId" class="form-control" disabled="disabled" />
+            <label asp-for="Description" class="control-label"></label> 
+            <br />
+            <div class="input-group">                
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                            <i class="fa fa-user-circle" aria-hidden="true"></i>
+                    </span>                
+                </div>
+                <input asp-for="Description" class="form-control" disabled="disabled" />
+            </div>
+            <label asp-for="StartedAt" class="control-label"></label> <br />
+            <div class="input-group">                
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                            <i class="fa fa-play" aria-hidden="true"></i>
+                    </span>                
+                </div>
+                <input asp-for="StartedAt" class="form-control" disabled="disabled" />
+            </div>
+            <label asp-for="EndedAt" class="control-label"></label> <br />
+            <div class="input-group">                
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                            <i class="fa fa-stop" aria-hidden="true"></i>
+                    </span>                
+                </div>
+                <input asp-for="EndedAt" class="form-control" disabled="disabled" />
+            </div>
+            <label asp-for="Status" class="control-label"></label> <br />
+            <div class="input-group">                
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                            <i class="fa fa-sharp fa-light fa-list-check" aria-hidden="true"></i>
+                    </span>                
+                </div>
+                <input asp-for="Status" class="form-control" disabled="disabled" />
+            </div>
         </div>
-
-
-
-    </div>
+        <div class="card-foot bg-info text-center text-white">
+            <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.ActivityId" >Alterar</a>
+            <a asp-action="Index" class="btn btn-warning">Retornar a lista de atividades</a>
+        </div>
 </div>
 
-<!DOCTYPE html>
+@*<!DOCTYPE html>
 
 <html>
 <head>
@@ -93,3 +133,4 @@
 </div>
 </body>
 </html>
+*@
