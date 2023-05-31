@@ -1,6 +1,67 @@
 ﻿@model NIJ.Web.Models.Activity
 
 @{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_LayoutIES.cshtml";
+}
+
+<div class="card-block">
+    <div class="card-header text-white bg-danger text-center h1">Alterando atividade</div>
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+               <div class="form-group">
+                @Html.HiddenFor(x => x.ActivityId)
+                @*    <label asp-for="ActivityId" class="control-label"></label>
+                    <input asp-for="ActivityId" class="form-control" />
+                    <span asp-validation-for="ActivityId" class="text-danger"></span>*@
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label"></label>
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                    
+                </div>
+                <div class="form-group">
+                    <label asp-for="StartedAt" class="control-label"></label>
+                    <input asp-for="StartedAt" class="form-control" />
+                    <span asp-validation-for="StartedAt" class="text-danger"></span>
+                    
+                </div>
+                <div class="form-group">
+                    <label asp-for="EndedAt" class="control-label"></label>
+                    <input asp-for="EndedAt" class="form-control" />
+                    <span asp-validation-for="EndedAt" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>            
+                  @*  <input asp-for="Status" class="form-control" />*@
+                    <select asp-for="Status" default="Selecione o Status" class="form-control" >
+                        <option value="Started">Iniciado</option>
+                        <option value="Pause">Pausado</option>
+                        <option value="Ended">Concluido</option>
+                        <option value="Deleted">Excluido</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>                    
+                </div>
+                <div class="form-group text-center h3">
+                    <input type="submit" value="Salvar" class="btn btn-primary" />                     
+                    <a asp-action="Index" class="btn btn-info">Retornar a lista de atividades</a>
+                </div>            
+            </form>
+        </div>
+        <div class="footer bg-dark text-center text-white">Informe os dados acima e ou clique no botão de uma das ações </div>
+</div>
+@section ScriptPage {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+
+
+@*@model NIJ.Web.Models.Activity
+
+@{
     Layout = null;
 }
 
@@ -61,3 +122,4 @@
 }
 </body>
 </html>
+*@

@@ -1,8 +1,46 @@
 ﻿@model NIJ.Web.Models.Activity
 
 @{
-    Layout = null;
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_LayoutIES.cshtml";
 }
+
+@section Styles {
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/datatables/css/jquery.dataTables.min.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
+    </environment>
+    <environment exclude="Development">
+        <link
+            rel="stylesheet" 
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/font-awesome.min.css" 
+            asp-fallback-href="~/lib/font-awesome/css/all.css"
+            asp-fallback-test-class="sr-only"
+            asp-fallback-test-property="position"
+            asp-fallback-test-value="absolute"
+        />
+    </environment>
+}
+
+<div class="card-block">
+    <div class="card-header text-white bg-secondary text-center h1" >
+        Lista de atividades
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <label asp-for="ActivityId" class="control-label"></label> <br />
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                        <i class="fa fa-key" aria-hidden="true"></i>
+                </span>                
+            </div>
+            <input asp-for="ActivityId" class="form-control" disabled="disabled" />
+        </div>
+
+
+
+    </div>
+</div>
 
 <!DOCTYPE html>
 
