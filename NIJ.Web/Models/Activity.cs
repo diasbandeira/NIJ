@@ -12,5 +12,7 @@ namespace NIJ.Web.Models
         public DateTime StartedAt { get; set; }
         public DateTime EndedAt { get; set; }
         public Status Status { get; set; }
+        public long? ProjectId { get; set; }
+        public Project Project { get; set; }
     }
 }

@@ -10,7 +10,9 @@ namespace NIJ.Web.Data
     {
         public static void Initialize(IESContext context)
         {
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
+
             if (context.Projects.Any()&& context.Activities.Any())
             {
                 return;
@@ -19,7 +21,8 @@ namespace NIJ.Web.Data
             foreach(Project p in GetProjects())
             {
                 context.Projects.Add(p);
-            }            
+            }
+            context.SaveChanges();
 
             foreach (Activity a in GetActivies())
             {
@@ -44,35 +47,39 @@ namespace NIJ.Web.Data
             {
                 new Activity()
                 {
-                    ActivityId = 1,
+                    //ActivityId = 1,
                     Description = "Atividade 2",
                     StartedAt = DateTime.Now,
                     EndedAt = DateTime.Now.AddHours(1),
-                    Status = Status.Started
+                    Status = Status.Started,
+                    ProjectId= 1
                 },
                 new Activity()
                 {
-                    ActivityId = 2,
+                    //ActivityId = 2,
                     Description = "Atividade 3",
                     StartedAt = DateTime.Now,
                     EndedAt = DateTime.Now.AddHours(2),
-                    Status = Status.Pause
+                    Status = Status.Pause,
+                    ProjectId= 2
                 },
                 new Activity()
                 {
-                    ActivityId = 3,
+                    //ActivityId = 3,
                     Description = "Atividade 3",
                     StartedAt = DateTime.Now,
                     EndedAt = DateTime.Now.AddHours(3),
-                    Status = Status.Ended
+                    Status = Status.Ended,
+                    ProjectId= 1
                 },
                 new Activity()
                 {
-                    ActivityId = 4,
+                    //ActivityId = 4,
                     Description = "Atividade 4",
                     StartedAt = DateTime.Now,
                     EndedAt = DateTime.Now.AddHours(4),
-                    Status = Status.Deleted
+                    Status = Status.Deleted,
+                    ProjectId= 2
                 }
             };
 

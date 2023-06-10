@@ -19,7 +19,7 @@ namespace NIJ.Web.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            var activities = await _context.Activities.OrderBy(a => a.ActivityId).ToListAsync();
+            var activities = await _context.Activities.Include(i => i.Project).OrderBy(a => a.ActivityId).ToListAsync();
             return View(activities);
         }
 
@@ -138,7 +138,8 @@ namespace NIJ.Web.Controllers
             var activity = await _context.Activities.Where(a => a.ActivityId == id).SingleOrDefaultAsync();
             _context.Remove(activity);
             await _context.SaveChangesAsync();
-            
+            TempData["Message"] = "Atividade " + activity.Description.ToUpper() + " foi removida.";
+
             return RedirectToAction(nameof(Index));
         }
 
