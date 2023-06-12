@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NIJ.Web.Data;
 using NIJ.Web.Models;
@@ -26,12 +27,16 @@ namespace NIJ.Web.Controllers
         //GET: Create
         public ActionResult Create()
         {
+            var projects = _context.Projects.OrderBy(i => i.Name).ToList();
+            projects.Insert(0, new Project() { ProjectId = 0, Name = "Selecione o projeto" });
+            ViewBag.Projects = projects;
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Description", "StartedAt", "EndedAt", "Status")] Activity activity)
+        public async Task<IActionResult> Create([Bind("Description, ProjectId, StartedAt, EndedAt, Status")] Activity activity)
         {
             try
             {
@@ -60,6 +65,7 @@ namespace NIJ.Web.Controllers
             }
 
             var activity = await _context.Activities.Where(a => a.ActivityId == id).SingleOrDefaultAsync();
+            ViewBag.Projects = new SelectList(_context.Projects.OrderBy(i => i.Name), "ProjectId", "Name", activity.ProjectId);
 
             if(activity == null)
             {
