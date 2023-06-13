@@ -75,6 +75,17 @@
                 </div>
                 <input asp-for="Status" class="form-control" disabled="disabled" />
             </div>
+
+            <label asp-for="Project.Name" class="control-label"></label> 
+            <br />
+            <div class="input-group">                
+                <div class="input-group-prepend">
+                    <span class="input-group-text">
+                            <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                    </span>                
+                </div>
+                <input asp-for="Project.Name" class="form-control" disabled="disabled" />
+            </div>
         </div>
         <div class="card-foot bg-info text-center text-white">
             <a asp-action="Edit" class="btn btn-warning" asp-route-id="@Model.ActivityId" >Alterar</a> |

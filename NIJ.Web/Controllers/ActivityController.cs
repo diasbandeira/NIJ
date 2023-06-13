@@ -77,7 +77,7 @@ namespace NIJ.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long? id, [Bind("ActivityId", "Description", "StartedAt", "EndedAt", "Status")] Activity activity)
+        public async Task<IActionResult> Edit(long? id, [Bind("ActivityId", "Description", "ProjectId", "StartedAt", "EndedAt", "Status")] Activity activity)
         {
             
             if(activity.ActivityId != id)
@@ -102,8 +102,11 @@ namespace NIJ.Web.Controllers
                         throw;
                     }                    
                 }
+                ViewBag.Projects = new SelectList(_context.Projects.OrderBy(i => i.Name), "ProjectId", "Name", activity.ProjectId);
                 return RedirectToAction(nameof(Index));
             }
+
+            
             
             return View(activity);
             
@@ -116,7 +119,8 @@ namespace NIJ.Web.Controllers
                 return NotFound();
 
             var activity = await _context.Activities.Where(a => a.ActivityId == id).SingleOrDefaultAsync();
-            
+            _context.Projects.Where(i => activity.ProjectId == i.ProjectId).Load();
+
             if (activity == null)
                 return NotFound();
 
@@ -129,8 +133,8 @@ namespace NIJ.Web.Controllers
             if (id == null)
                 return NotFound();
             
-            var activity = await _context.Activities.Where(a => a.ActivityId == id).SingleOrDefaultAsync();
-            
+            var activity = await _context.Activities.SingleOrDefaultAsync(a => a.ActivityId == id);
+            _context.Projects.Where(i => activity.ProjectId == i.ProjectId).Load();
             if (activity == null)
                 return NotFound();
 
@@ -141,11 +145,12 @@ namespace NIJ.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long? id)
         {
-            var activity = await _context.Activities.Where(a => a.ActivityId == id).SingleOrDefaultAsync();
+            var activity = await _context.Activities.SingleOrDefaultAsync(a => a.ActivityId == id);
             _context.Remove(activity);
-            await _context.SaveChangesAsync();
             TempData["Message"] = "Atividade " + activity.Description.ToUpper() + " foi removida.";
 
+            await _context.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
 
