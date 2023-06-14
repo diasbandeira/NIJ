@@ -1,0 +1,35 @@
+﻿@model IEnumerable<NIJ.Web.Models.Activity>
+<div class="panel panel-primary">
+    <div class="card-header text-white bg-warning text-center">
+        Relação de atividades registrados para o projeto    
+    </div>    
+    <div class="panel-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Description)</th>
+                </tr>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Status)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="panel-footer panel-info">
+        
+    </div>
+</div>
+

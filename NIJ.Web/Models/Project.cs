@@ -10,6 +10,6 @@ namespace NIJ.Web.Models
     {
         public long? ProjectId { get; set; }
         public string Name { get; set; }
-        //public virtual ICollection<Activity> Activities { get; set; }
+        public virtual ICollection<Activity> Activities { get; set; }
     }
 }

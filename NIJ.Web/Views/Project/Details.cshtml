@@ -1,10 +1,69 @@
 ﻿@model NIJ.Web.Models.Project
 
 @{
-    Layout = null;
+    Layout = "~/Views/Shared/_LayoutIES.cshtml";
 }
 
-<!DOCTYPE html>
+
+
+@section Styles {
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.min.css" />
+    </environment>
+    <environment exclude="Development">
+        <link
+            rel="stylesheet" 
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/font-awesome.min.css" 
+            asp-fallback-href="~/lib/font-awesome/css/all.css"
+            asp-fallback-test-class="sr-only"
+            asp-fallback-test-property="position"
+            asp-fallback-test-value="absolute"
+        />
+    </environment>
+}
+
+<div class="card-block">
+    <div class="card-header text-white bg-secondary text-center h1">
+        Projetos
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group">
+                    <label asp-for="ProjectId" class="control-label"></label>
+                    <br />
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fa fa-key" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <input asp-for="ProjectId" class="form-control" disabled="disabled"/>
+                    </div>
+                    <label asp-for="Name" class="control-label"></label>
+                    <br />
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <i class="fa fa-" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <input asp-for="Name" class="form-control" disabled="disabled"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                @{await Html.RenderPartialAsync("~/Views/Project/_WithActivities.cshtml", Model.Activities.ToList());}
+            </div>
+        </div>@*D:\Dev\Pocs\NIJ\NIJ.Web\Views\Project\_WithActivities.cshtml*@
+    </div>    
+    <div class="card-footer bg-info text-center text-white">
+        <a asp-action="Edit" class="btn btn-warning" asp-route-itemid="@Model.ProjectId">Alterar</a> | 
+        <a asp-action="Index" class="btn btn-warning">Retornar a listagem de projetos</a>
+    </div>
+</div>
+
+@*<!DOCTYPE html>
 
 <html>
 <head>
@@ -31,3 +90,4 @@
 </div>
 </body>
 </html>
+*@

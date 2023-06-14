@@ -107,7 +107,7 @@ namespace NIJ.Web.Controllers
                 return NotFound();
             }
 
-            var project = await _context.Projects.SingleOrDefaultAsync(p => p.ProjectId == id);
+            var project = await _context.Projects.Include(p => p.Activities).SingleOrDefaultAsync(p => p.ProjectId == id);
             if(project == null)
             {
                 return NotFound();
