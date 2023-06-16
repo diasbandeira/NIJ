@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NIJ.Web.Models
+namespace Modelo.Cadastros
 {
     public class Project
     {

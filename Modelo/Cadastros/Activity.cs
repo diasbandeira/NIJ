@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Modelo.Cadastros;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NIJ.Web.Models
+namespace Modelo.Cadastros
 {
     public class Activity
     {

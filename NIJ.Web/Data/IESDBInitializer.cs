@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using NIJ.Web.Models;
+using Modelo.Cadastros;
 
 namespace NIJ.Web.Data
 {
@@ -51,7 +51,7 @@ namespace NIJ.Web.Data
                     Description = "Atividade 2",
                     StartedAt = DateTime.Now,
                     EndedAt = DateTime.Now.AddHours(1),
-                    Status = Status.Started,
+                    Status = Modelo.Cadastros.Status.Started,
                     ProjectId= 1
                 },
                 new Activity()

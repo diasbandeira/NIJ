@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NIJ.Web.Models;
+using Modelo.Cadastros;
 
 namespace NIJ.Web.Data
 {

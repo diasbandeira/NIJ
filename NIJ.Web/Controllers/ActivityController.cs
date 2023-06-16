@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NIJ.Web.Data;
-using NIJ.Web.Models;
+using Modelo.Cadastros;
 using System;
 using System.Collections.Generic;
 using System.Linq;
