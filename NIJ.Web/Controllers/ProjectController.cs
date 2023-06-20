@@ -6,19 +6,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NIJ.Web.Data.DAL.Cadastros;
 
 namespace NIJ.Web.Controllers
 {
     public class ProjectController : Controller
     {
         private readonly IESContext _context;
+        private readonly ProjectDAL projectDAL;
         public ProjectController(IESContext context)
         {
             this._context = context;
+            projectDAL = new ProjectDAL(context);
         }
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Projects.OrderBy(p => p.Name).ToListAsync());
+            return View(await projectDAL.GetProjectsOrderByName().ToListAsync());
         }
         //Get Project /Create
         public IActionResult Create()
@@ -34,8 +37,7 @@ namespace NIJ.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Add(project);
-                    await _context.SaveChangesAsync();
+                    await projectDAL.SaveProject(project);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -53,7 +55,7 @@ namespace NIJ.Web.Controllers
                 return NotFound();
             }
 
-            var project = await _context.Projects.SingleOrDefaultAsync(p => p.ProjectId == id);
+            var project = await projectDAL.GetProjectById((long)id);
             if (project == null)
             {
                 return NotFound();
@@ -75,12 +77,11 @@ namespace NIJ.Web.Controllers
             {
                 try
                 {
-                    _context.Update(project);
-                    await _context.SaveChangesAsync();
+                    await projectDAL.SaveProject(project);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProjectExists(project.ProjectId))
+                    if (!await ProjectExists(project.ProjectId))
                     {
                         return NotFound();
                     }
@@ -95,9 +96,9 @@ namespace NIJ.Web.Controllers
             return View(project);
         }
 
-        private bool ProjectExists(long? id)
+        private async Task<bool> ProjectExists(long? id)
         {
-            return _context.Projects.Any(p => p.ProjectId == id);
+            return await projectDAL.GetProjectById((long) id) != null;
         }
 
         public async Task<IActionResult> Details(long? id)
@@ -107,7 +108,7 @@ namespace NIJ.Web.Controllers
                 return NotFound();
             }
 
-            var project = await _context.Projects.Include(p => p.Activities).SingleOrDefaultAsync(p => p.ProjectId == id);
+            var project = await projectDAL.GetProjectById((long)id);
             if(project == null)
             {
                 return NotFound();
@@ -124,7 +125,7 @@ namespace NIJ.Web.Controllers
                 return NotFound();
             }
 
-            var project = await _context.Projects.SingleOrDefaultAsync(p => p.ProjectId == id);
+            var project = await projectDAL.GetProjectById((long)id);
 
             if(project == null)
             {
@@ -139,9 +140,8 @@ namespace NIJ.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long? id)
         {
-            var project = await _context.Projects.SingleOrDefaultAsync(p => p.ProjectId == id);
-            _context.Projects.Remove(project);
-            await _context.SaveChangesAsync();
+            var project = await projectDAL.RemoveProjectById((long)id);
+            
             return RedirectToAction(nameof(Index));
         }
     }
