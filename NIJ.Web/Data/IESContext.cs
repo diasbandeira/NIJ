@@ -11,5 +11,6 @@ namespace NIJ.Web.Data
         }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Project> Projects { get; set; }
+        public DbSet<Customer> Customer { get; set; }
     }
 }

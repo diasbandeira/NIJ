@@ -8,8 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NIJ.Web.Controllers
+namespace NIJ.Web.Areas.Entry.Controllers
 {
+    [Area("Entry")]
     public class ActivityController : Controller
     {
         private readonly IESContext _context;

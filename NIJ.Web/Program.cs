@@ -22,7 +22,7 @@ namespace NIJ.Web
                 try
                 {
                     var context = services.GetRequiredService<IESContext>();
-                    IESDBInitializer.Initialize(context);
+                    //IESDBInitializer.Initialize(context);
                 }
                 catch(Exception ex)
                 {

@@ -5,6 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\teste\**" />
+    <Compile Remove="Areas\Users\**" />
+    <Content Remove="Areas\teste\**" />
+    <Content Remove="Areas\Users\**" />
+    <EmbeddedResource Remove="Areas\teste\**" />
+    <EmbeddedResource Remove="Areas\Users\**" />
+    <None Remove="Areas\teste\**" />
+    <None Remove="Areas\Users\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="bootstrap" Version="4.5.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0">
@@ -17,6 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Entry\Data\" />
+    <Folder Include="Areas\Entry\Models\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
