@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Modelo.Cadastros;
+using NIJ.Web.Models.Infra;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace NIJ.Web.Data
 {
-    public class IESContext : DbContext
+    public class IESContext : IdentityDbContext<UserAplication>
     {
         public IESContext(DbContextOptions<IESContext> options) : base(options)
         {

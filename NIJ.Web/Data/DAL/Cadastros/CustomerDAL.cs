@@ -26,7 +26,7 @@ namespace NIJ.Web.Data.DAL.Cadastros
 
         public async Task<Customer>SaveCustomer(Customer customer)
         {
-            if(customer.CustomerId == null)
+            if(customer.CustomerId == 0)
             {
                 _context.Customer.Add(customer);
             }

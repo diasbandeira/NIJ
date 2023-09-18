@@ -7,10 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace NIJ.Web.Areas.Entry.Controllers
 {
     [Area("Entry")]
+    [Authorize]
     public class ActivityController : Controller
     {
         private readonly IESContext _context;

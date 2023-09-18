@@ -11,6 +11,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using NIJ.Web.Models.Infra;
+using Microsoft.AspNetCore.Identity;
 
 namespace NIJ.Web
 {
@@ -27,7 +29,12 @@ namespace NIJ.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<IESContext>(options => options.UseSqlServer(Configuration.GetConnectionString("IESConnection")));
-            services.AddControllersWithViews();            
+            services.AddControllersWithViews();
+            services.AddIdentity<UserAplication, IdentityRole>().AddEntityFrameworkStores<IESContext>().AddDefaultTokenProviders();
+            services.ConfigureApplicationCookie(options => {
+                options.LoginPath = "/Infra/Acessar";
+                options.AccessDeniedPath = "/Infra/AcessoNegado";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +54,8 @@ namespace NIJ.Web
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
