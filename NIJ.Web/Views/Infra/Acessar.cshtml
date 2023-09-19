@@ -1,0 +1,51 @@
+﻿@model NIJ.Web.Models.Infra.ViewModel.AcessarViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_LayoutIES";
+}
+<div class="card-header text-white bg-secondary text-center h1">Utilize uma conta local para acessar</div>
+<div class="row">
+    <div class="col-md-4">
+        
+    </div>    
+    <div class="col-md-4">
+        <section>
+            <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label asp-for="Remember">
+                            <input asp-for="Remember"/>
+                            @Html.DisplayNameFor(m => m.Remember)
+                        </label>
+                    </div>                    
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default">Acessar</button>
+                </div>
+                <div class="form-group">
+                    <p>
+                        <a asp-action="RegisterNewUser" asp-route-returnurl="@ViewData["ReturnUrl"]">Registrar um novo usuario?</a>
+                    </p>                    
+                </div>
+            </form>
+        </section>        
+    </div>
+    <div class="col-md-4">
+    </div>
+</div>
+@section ScriptPage {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
