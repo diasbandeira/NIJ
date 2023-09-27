@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NIJ.Web.Data.DAL.Cadastros;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace NIJ.Web.Controllers
 {
@@ -66,7 +68,7 @@ namespace NIJ.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long? id, [Bind("ProjectId, Name")] Project project)
+        public async Task<IActionResult> Edit(long? id, [Bind("ProjectId, Name")] Project project, IFormFile foto)
         {
             if(id != project.ProjectId)
             {
@@ -77,6 +79,11 @@ namespace NIJ.Web.Controllers
             {
                 try
                 {
+                    var stream = new MemoryStream();
+                    await foto.CopyToAsync(stream);
+                    project.Foto = stream.ToArray();
+                    project.FotoMineType = foto.ContentType;
+
                     await projectDAL.SaveProject(project);
                 }
                 catch (DbUpdateConcurrencyException)
