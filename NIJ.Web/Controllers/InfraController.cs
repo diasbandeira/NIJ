@@ -66,6 +66,34 @@ namespace NIJ.Web.Controllers
             }
             return View(model);
         }
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("Usuario realizou logout.");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Acessar(AcessarViewModel model, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.Remember, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("Usuário Autenticado.");
+                    return RedirectToLocal(returnUrl);
+                }
+            }
+
+            ModelState.AddModelError(string.Empty, "Falha na tentativa de login.");
+            return View(model);
+
+        }
 
         private void AddErrors(IdentityResult result)
         {
