@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using NIJ.Web.Data.DAL.Cadastros;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.FileProviders;
 
 namespace NIJ.Web.Controllers
 {
@@ -16,10 +18,12 @@ namespace NIJ.Web.Controllers
     {
         private readonly IESContext _context;
         private readonly ProjectDAL projectDAL;
-        public ProjectController(IESContext context)
+        private readonly IWebHostEnvironment _env;
+        public ProjectController(IESContext context, IWebHostEnvironment env)
         {
             this._context = context;
             projectDAL = new ProjectDAL(context);
+            _env = env;
         }
         public async Task<IActionResult> Index()
         {
@@ -151,9 +155,9 @@ namespace NIJ.Web.Controllers
             
             return RedirectToAction(nameof(Index));
         }
-        public async Task<FileContentResult> GetPhoto(long Id)
+        public async Task<FileContentResult> GetPhoto(long id)
         {
-            Project project = await projectDAL.GetProjectById(Id);
+            Project project = await projectDAL.GetProjectById(id);
             
             if(project != null)
             {
@@ -161,6 +165,22 @@ namespace NIJ.Web.Controllers
             }
 
             return null;
+        }
+
+        public async Task<FileResult> DownloadPhoto(long id)
+        {
+            Project project = await projectDAL.GetProjectById(id);
+
+            string nomeArquivo = "Foto" + project.ProjectId.ToString().Trim() + ".jpg";
+            FileStream fileStream = new(System.IO.Path.Combine(_env.WebRootPath, nomeArquivo), FileMode.Create, FileAccess.Write);
+            fileStream.Write(project.Foto, 0, project.Foto.Length);
+            fileStream.Close();
+
+            IFileProvider provider = new PhysicalFileProvider(_env.WebRootPath);
+            IFileInfo fileInfo = provider.GetFileInfo(nomeArquivo);
+            var readStream = fileInfo.CreateReadStream();
+
+            return File(readStream, project.FotoMineType, nomeArquivo);
         }
     }
 }
