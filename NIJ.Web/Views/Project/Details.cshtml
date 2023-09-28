@@ -50,8 +50,12 @@
                         </div>
                         <input asp-for="Name" class="form-control" disabled="disabled"/>
                     </div>
+                    
                 </div>
             </div>
+            <div class="col-3">
+                        <img class="img-thubnail" src="@Url.Action("GetPhoto", "Project", new {id = Model.ProjectId})" style="display:block; margin-left:auto; margin-right:auto; width:inherit;" />
+                    </div>
             <div class="col-4">
                 @{await Html.RenderPartialAsync("~/Views/Project/_WithActivities.cshtml", Model.Activities.ToList());}
             </div>

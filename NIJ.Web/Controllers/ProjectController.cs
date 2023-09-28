@@ -151,5 +151,16 @@ namespace NIJ.Web.Controllers
             
             return RedirectToAction(nameof(Index));
         }
+        public async Task<FileContentResult> GetPhoto(long Id)
+        {
+            Project project = await projectDAL.GetProjectById(Id);
+            
+            if(project != null)
+            {
+                return File(project.Foto, project.FotoMineType);
+            }
+
+            return null;
+        }
     }
 }
