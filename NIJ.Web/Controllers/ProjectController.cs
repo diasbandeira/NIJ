@@ -72,7 +72,7 @@ namespace NIJ.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long? id, [Bind("ProjectId, Name")] Project project, IFormFile foto)
+        public async Task<IActionResult> Edit(long? id, [Bind("ProjectId, Name")] Project project, IFormFile foto, string chkRemovePhoto)
         {
             if(id != project.ProjectId)
             {
@@ -84,9 +84,16 @@ namespace NIJ.Web.Controllers
                 try
                 {
                     var stream = new MemoryStream();
-                    await foto.CopyToAsync(stream);
-                    project.Foto = stream.ToArray();
-                    project.FotoMineType = foto.ContentType;
+                    if(chkRemovePhoto != null)
+                    {
+                        project.Foto = null;
+                    }
+                    else
+                    {
+                        await foto.CopyToAsync(stream);
+                        project.Foto = stream.ToArray();
+                        project.FotoMineType = foto.ContentType;
+                    }                    
 
                     await projectDAL.SaveProject(project);
                 }
