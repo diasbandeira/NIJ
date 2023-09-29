@@ -50,6 +50,13 @@ namespace NIJ.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            //Retorno de status do erro.
+            //app.UseStatusCodePages();
+            
+            //executa redicionamento passando o erro.
+            app.UseStatusCodePagesWithReExecute("/Home/Error/", "?statusCode={0}");
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
