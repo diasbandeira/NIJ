@@ -15,5 +15,24 @@ namespace NIJ.Web.Data
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Customer> Customer { get; set; }
+        public DbSet<User> Users { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<ActivityUser>()
+                .HasKey(au => new { au.ActivityId, au.UserId });
+            
+            modelBuilder.Entity<ActivityUser>()
+                .HasOne(a => a.Activity)
+                .WithMany(au => au.ActivitiesUsers)
+                .HasForeignKey(a => a.ActivityId);
+
+            modelBuilder.Entity<ActivityUser>()
+                .HasOne(a => a.User)
+                .WithMany(au => au.ActivitiesUsers)
+                .HasForeignKey(a => a.UserId);
+
+        }
     }
 }

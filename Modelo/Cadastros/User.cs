@@ -10,6 +10,6 @@ namespace Modelo.Cadastros
     {
         public long UserId { get; set; }
         public string Name { get; set; }
-        //public virtual ICollection<UserActivity> UsersActivities{ get; set; }
+        public virtual ICollection<ActivityUser> ActivitiesUsers{ get; set; }
     }
 }

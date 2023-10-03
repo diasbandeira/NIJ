@@ -14,8 +14,8 @@ namespace Modelo.Cadastros
         public DateTime EndedAt { get; set; }
         public Status Status { get; set; }
         public long? ProjectId { get; set; }
-        public Project Project { get; set; }
-        //public virtual ICollection<UserActivity> UsersActivities { get; set; }
+        public Project Project { get; set; }        
+        public virtual ICollection<ActivityUser> ActivitiesUsers { get; set; }
 
     }
 }

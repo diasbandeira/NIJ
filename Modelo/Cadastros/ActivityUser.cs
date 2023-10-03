@@ -1,9 +1,10 @@
 ﻿namespace Modelo.Cadastros
 {
-    public class UserActivity
+    public class ActivityUser
     {
+        public long? ActivityId { get; set; }
+        public Activity Activity { get; set; }
         public long? UserId { get; set; }
         public User User { get; set; }
-       // public long? ActivityId { get; set; }
     }
 }
