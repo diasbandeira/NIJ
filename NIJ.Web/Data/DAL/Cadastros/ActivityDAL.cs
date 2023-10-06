@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Modelo.Cadastros;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -50,6 +51,24 @@ namespace NIJ.Web.Data.DAL.Cadastros
             await _context.SaveChangesAsync();
 
             return activity;
+        }
+
+        public void RegistrarUsuario(long activityId, long userId)
+        {
+            var activity = _context.Activities.Where(a => a.ActivityId == activityId).Include(au => au.ActivitiesUsers).First();
+            var user = _context.Users.Find(userId);
+            activity.ActivitiesUsers.Add(new ActivityUser() { Activity = activity, User = user });
+
+            _context.SaveChanges();
+        }
+
+        public IQueryable<User> GetUsersWithoutActivities(long? activityId)
+        {
+            var activity = _context.Activities.Where(a => a.ActivityId == activityId).Include(au => au.ActivitiesUsers).First();
+            var activitiesUsers = activity.ActivitiesUsers.Select(au => au.UserId).ToArray();
+            var activitiesWhitoutUsers = _context.Users.Where(u => !activitiesUsers.Contains(u.UserId));
+            return activitiesWhitoutUsers;
+
         }
     }
 }
